@@ -94,14 +94,14 @@ router.delete('/:userId',  async (req, res) => {
     }
 });
 
-//UPDATE USER (fix)
+//UPDATE USER 
 router.put('/:UserId', async (req, res) => {
 
     console.log(req.body);
 
     try {
         const updatedUser = await User.updateOne({
-            _id: req.params.userId
+            _id: req.params.UserId
         }, {
             $set: {
                 name: req.body.name,
