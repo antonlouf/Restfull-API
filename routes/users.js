@@ -29,7 +29,7 @@ body('email')
 .isEmail().withMessage('Must be valid email'),
 body('password')
 .notEmpty().withMessage('May not be empty')
-.isLength({ min: 5 }),
+.isLength({ min: 5 }).withMessage('at least 5 characters'),
 validateUserPhoneNumber,
 body('phone')
 .isMobilePhone().withMessage('Not valid phone number'),
@@ -51,7 +51,8 @@ body('age')
                 name: req.body.name,
                 password: req.body.password,
                 email: req.body.email,
-                phone: req.body.phone
+                phone: req.body.phone,
+                age: req.body.age
             });
 
             try {
@@ -80,7 +81,7 @@ router.get('/:userId', async (req, res) => {
 });
 
 //DELETE USER
-router.delete('/:userId', async (req, res) => {
+router.delete('/:userId',  async (req, res) => {
     try {
         const removedUser = await User.deleteOne({
             _id: req.params.userId
@@ -93,17 +94,21 @@ router.delete('/:userId', async (req, res) => {
     }
 });
 
-//UPDATE USER (FIX)
+//UPDATE USER (fix)
 router.put('/:UserId', async (req, res) => {
+
+    console.log(req.body);
+
     try {
         const updatedUser = await User.updateOne({
             _id: req.params.userId
         }, {
             $set: {
-                name: req.params.name,
-                password: req.params.password,
+                name: req.body.name,
+                password: req.body.password,
                 email: req.body.email,
-                phone: req.body.phone
+                phone: req.body.phone,
+                age: req.body.age
             }
         });
         res.json(updatedUser);

@@ -64,23 +64,9 @@ router.post('/',
     });
 
 //SPECIFIC POSTS 
-// router.get('/:postId', async (req, res) => {
-//     try {
-//         const post = await Post.findById(req.params.postId);
-//         res.json(post);
-//     } catch (err) {
-//         res.json({
-//             message: err
-//         });
-//     }
-// });
-
-//SPECIFIC POSTS 
-router.get('/:key', async (req, res) => {
+router.get('/:postId', async (req, res) => {
     try {
-        const post = await Post.find({
-            "$or"
-        });
+        const post = await Post.findById(req.params.postId);
         res.json(post);
     } catch (err) {
         res.json({
@@ -88,6 +74,21 @@ router.get('/:key', async (req, res) => {
         });
     }
 });
+
+
+//SPECIFIC POSTS 
+// router.get('/:key', async (req, res) => {
+//     try {
+//         const post = await Post.find({
+//             "$or"
+//         });
+//         res.json(post);
+//     } catch (err) {
+//         res.json({
+//             message: err
+//         });
+//     }
+// });
 
 
 //DELETE POST
@@ -104,15 +105,15 @@ router.delete('/:postId', async (req, res) => {
     }
 });
 
-//UPDATE POST (FIX)
+//UPDATE POST
 router.put('/:postId', async (req, res) => {
     try {
         const updatedPost = await Post.updateOne({
             _id: req.params.postId
         }, {
             $set: {
-                title: req.params.title,
-                description: req.params.description
+                title: req.body.title,
+                description: req.body.description
             }
         });
         res.json(updatedPost);
